@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.shoppa.shoppa.RegisterFragment">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="16dp"
+        android:drawableStart="@drawable/ic_perm_identity_black_24dp"
+        android:hint="@string/string_username"
+        android:inputType="text" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="16dp"
+        android:drawableStart="@drawable/ic_mail_outline_black_24dp"
+        android:hint="@string/string_email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="16dp"
+        android:drawableStart="@drawable/ic_lock_outline_black_24dp"
+        android:hint="@string/string_password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginBottom="32dp"
+        android:drawablePadding="16dp"
+        android:drawableStart="@drawable/ic_lock_outline_black_24dp"
+        android:hint="@string/string_confirm_password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/padding"
+        android:background="@color/colorButtonPrimary"
+        android:text="@string/string_register" />
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_gravity="bottom"
+        android:background="#80424242"
+        android:text="@string/string_back" />
+
+</LinearLayout>
