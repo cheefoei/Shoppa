@@ -34,6 +34,9 @@
             android:theme="@style/zxing_CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".ShopActivity" />
+        <activity
+            android:name=".CheckoutActivity"
+            android:label="@string/activity_checkout" />
     </application>
 
 </manifest>

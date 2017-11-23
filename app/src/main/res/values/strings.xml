@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Shoppa</string>
+    <string name="activity_checkout">Checkout</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="tv_forgot_password">I forgot password</string>
 
@@ -23,8 +27,10 @@
     <string name="string_shop_product_delete">Delete</string>
     <string name="string_shop_product_edit">Edit</string>
     <string name="string_shop_total">Total: </string>
+    <string name="string_shop_price">Price: </string>
     <string name="string_shop_quantity">Quantity: </string>
     <string name="string_shop_checkout">Checkout</string>
+    <string name="string_shop_pay_now">Pay Now</string>
     <string-array name="quantity_array">
         <item>1</item>
         <item>2</item>
@@ -38,8 +44,49 @@
         <item>10</item>
     </string-array>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_shop">ShopActivity</string>
+    <!-- TODO: Manage card -->
+    <string name="string_visa">Visa card</string>
+    <string name="string_master">Mastercard</string>
+    <string name="string_card_type">Card type</string>
+    <string name="string_card_name">Card Holders Name</string>
+    <string name="string_card_number">Card Number</string>
+    <string name="string_ccv">CCV</string>
+    <string name="string_exp_date">Expiration Date</string>
+    <string name="string_add_card">Add Credit Card</string>
+    <string name="string_choose_credit_card">Choose Credit Card</string>
 
+    <string-array name="month">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+    <string-array name="year">
+        <item>2017</item>
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+        <item>2026</item>
+        <item>2027</item>
+        <item>2028</item>
+    </string-array>
+
+    <string-array name="cards">
+        <item>**** **** **** 7854</item>
+        <item>**** **** **** 4365</item>
+    </string-array>
 </resources>

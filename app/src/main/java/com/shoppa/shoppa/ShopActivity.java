@@ -65,11 +65,16 @@ public class ShopActivity extends AppCompatActivity {
                 IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
         if (scanningResult != null) {
+
             if (scanningResult.getContents() != null) {
-                String shopId = scanningResult.getContents();
-                Intent intent = new Intent(this, ShopActivity.class);
-                intent.putExtra("SHOP_ID", shopId);
-                startActivity(intent);
+
+//                String shopId = scanningResult.getContents();
+                AlertDialog.Builder builder = new AlertDialog.Builder(ShopActivity.this, R.style.DialogTheme)
+                        .setTitle("Tomata Sauce")
+                        .setView(R.layout.dialog_product_new)
+                        .setPositiveButton("Add", null)
+                        .setNegativeButton("Cancel", null);
+                builder.show();
             }
         } else {
             Toast.makeText(this, "No scan data received!", Toast.LENGTH_SHORT).show();
@@ -145,6 +150,8 @@ public class ShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Intent intent = new Intent(ShopActivity.this, CheckoutActivity.class);
+                startActivity(intent);
             }
         });
     }

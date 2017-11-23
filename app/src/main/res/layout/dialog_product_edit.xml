@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="32dp"
+    android:orientation="horizontal"
     android:paddingBottom="@dimen/padding"
     android:paddingEnd="@dimen/padding"
     android:paddingStart="@dimen/padding"
@@ -22,8 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
+        android:fontFamily="@string/font_family_light"
         android:entries="@array/quantity_array"
-        android:fontFamily="@string/font_family_regular"
         android:textSize="20sp" />
 
 </LinearLayout>

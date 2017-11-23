@@ -1,12 +1,8 @@
 package com.shoppa.shoppa;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,11 +13,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
+import com.shoppa.shoppa.NaviFragment.CardManageFragment;
 import com.shoppa.shoppa.NaviFragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -31,7 +24,6 @@ public class MainActivity extends AppCompatActivity
     private Fragment mFragment;
 
     private final int LOG_IN_REQUEST_CODE = 1;
-    private final int PERMISSIONS_REQUEST_ACCESS_CAMERA = 2;
 
     private String currentFragment = "HOME";
 
@@ -60,24 +52,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FloatingActionButton fabShop = (FloatingActionButton) findViewById(R.id.fab_shop);
-        fabShop.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                        MainActivity.this.checkSelfPermission(Manifest.permission.CAMERA)
-                                != PackageManager.PERMISSION_GRANTED) {
-
-                    requestPermissions(new String[]{Manifest.permission.CAMERA},
-                            PERMISSIONS_REQUEST_ACCESS_CAMERA);
-                } else {
-                    startScan();
-                }
-            }
-        });
-
         // Adding home fragment into frame as default
         FragmentManager fragmentManager = getSupportFragmentManager();
         mFragment = new HomeFragment();
@@ -104,52 +78,16 @@ public class MainActivity extends AppCompatActivity
 
         } else {
 
-            IntentResult scanningResult =
-                    IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-
-            if (scanningResult != null) {
-                if (scanningResult.getContents() != null) {
-                    String shopId = scanningResult.getContents();
-                    Intent intent = new Intent(this, ShopActivity.class);
-                    intent.putExtra("SHOP_ID", shopId);
-                    startActivity(intent);
-                }
-            } else {
-                Toast.makeText(this, "No scan data received!", Toast.LENGTH_SHORT).show();
-            }
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+            fragment.onActivityResult(requestCode, resultCode, data);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-
-        if (requestCode == PERMISSIONS_REQUEST_ACCESS_CAMERA) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startScan();
-            } else {
-                Toast.makeText(this, "Shoppa need permission to scan QR code", Toast.LENGTH_SHORT).show();
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    private void startScan() {
-
-        IntentIntegrator integrator = new IntentIntegrator(MainActivity.this)
-                .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
-                .setPrompt("Scan shopper QR code")
-                .setCaptureActivity(ScannerActivity.class)
-                .setOrientationLocked(false);
-        integrator.initiateScan();
-    }
-
     private void checkLogged() {
 
-        if (1 == 1) {
+        if (1 == 2) {
 
             Intent i = new Intent(MainActivity.this, ShopActivity.class);
             startActivity(i);
@@ -168,11 +106,20 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home && !currentFragment.equals("HOME")) {
 
+            mFragment = new HomeFragment();
+            currentFragment = "HOME";
         } else if (id == R.id.nav_card && !currentFragment.equals("CARD")) {
 
+            mFragment = new CardManageFragment();
+            currentFragment = "CARD";
         } else if (id == R.id.nav_history && !currentFragment.equals("HISTORY")) {
 
+            currentFragment = "HISTORY";
         }
+
+        mFragmentTransaction = getSupportFragmentManager().beginTransaction();
+        mFragmentTransaction.replace(R.id.content_frame, mFragment);
+        mFragmentTransaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

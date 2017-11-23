@@ -1,0 +1,145 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context="com.shoppa.shoppa.NaviFragment.AddCardFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/margin"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:padding="@dimen/padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:layout_marginStart="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/cardType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin"
+                android:fontFamily="@string/font_family_regular"
+                android:text="@string/string_card_type"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/cardVisa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin"
+                android:fontFamily="@string/font_family_light"
+                android:text="@string/string_visa"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/cardNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@string/font_family_regular"
+            android:text="@string/string_card_number"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/cardNum"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/edit_text_bg"
+            android:inputType="phone|number"
+            android:maxLength="19" />
+
+        <TextView
+            android:id="@+id/expDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@string/font_family_regular"
+            android:text="@string/string_exp_date"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="18dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Spinner
+                android:id="@+id/month"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_weight="0.95"
+                android:entries="@array/month"
+                android:fontFamily="@string/font_family_light" />
+
+            <Spinner
+                android:id="@+id/year"
+                android:layout_width="174dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:entries="@array/year"
+                android:fontFamily="@string/font_family_light" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/ccv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@string/font_family_regular"
+            android:text="@string/string_ccv"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/cardCCV"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/edit_text_bg"
+            android:inputType="number"
+            android:maxLength="3" />
+
+        <TextView
+            android:id="@+id/cardName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@string/font_family_regular"
+            android:text="@string/string_card_name"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/cardHoldersName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edit_text_bg"
+            android:inputType="textPersonName" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_add_credit_card"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/padding"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/colorButtonPrimary"
+        android:text="@string/string_add_card"
+        android:textStyle="bold" />
+
+</RelativeLayout>
