@@ -149,7 +149,10 @@ public class MainActivity extends AppCompatActivity
 
     private void checkLogged() {
 
-        if (1 == 2) {
+        if (1 == 1) {
+
+            Intent i = new Intent(MainActivity.this, ShopActivity.class);
+            startActivity(i);
 
         } else {
             Intent intent = new Intent(this, LoginRegisterActivity.class);

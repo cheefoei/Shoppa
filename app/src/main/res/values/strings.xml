@@ -3,6 +3,7 @@
 
     <string name="tv_forgot_password">I forgot password</string>
 
+    <!-- TODO: Login and Register activity Strings -->
     <string name="string_login">login</string>
     <string name="string_register">register</string>
     <string name="string_back">back</string>
@@ -10,9 +11,18 @@
     <string name="string_email">Email</string>
     <string name="string_password">Password</string>
     <string name="string_confirm_password">Confirm Password</string>
+
+    <!-- TODO: Main activity Strings -->
     <string name="string_today">Today</string>
     <string name="string_empty_money">RM 0.00</string>
-    <string name="string_empty_today">You not yet to use Shoppa today.</string>
+    <string name="string_empty_today">You not yet to use Shoppa today</string>
+
+    <!-- TODO: Shop activity Strings -->
+    <string name="string_shop_empty_cart">Your shopping cart is empty</string>
+    <string name="string_shop_product_img">Product image</string>
+    <string name="string_shop_product_edit">Edit</string>
+    <string name="string_shop_total">Total: </string>
+    <string name="string_shop_checkout">Checkout</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
