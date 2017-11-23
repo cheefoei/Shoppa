@@ -2,6 +2,12 @@
     <string name="app_name">Shoppa</string>
     <string name="activity_checkout">Checkout</string>
 
+    <string name="fragment_home">Home</string>
+    <string name="fragment_card">Manage Card</string>
+    <string name="fragment_add_card">Add New Card</string>
+    <string name="fragment_pocket">Pocket Money</string>
+    <string name="fragment_history">History</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -89,4 +95,13 @@
         <item>**** **** **** 7854</item>
         <item>**** **** **** 4365</item>
     </string-array>
+
+    <!-- TODO: Pocket Money -->
+    <string name="string_your_pocket">Your pocket money</string>
+    <string name="string_empty_pocket">0.00</string>
+    <string name="string_notify_empty_pocket">Empty History</string>
+    <string name="string_send_money">SEND MONEY</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

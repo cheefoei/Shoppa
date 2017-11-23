@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 
 import com.shoppa.shoppa.R;
 
-public class AddCardFragment extends Fragment {
+public class PocketMoneyFragment extends Fragment {
 
-    public AddCardFragment() {
+    public PocketMoneyFragment() {
         // Required empty public constructor
     }
 
@@ -22,16 +22,19 @@ public class AddCardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getActivity().setTitle(getString(R.string.fragment_add_card));
+        getActivity().setTitle(getString(R.string.fragment_pocket));
+
+        // Enable menu in toolbar
+        setHasOptionsMenu(true);
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_card, container, false);
+        return inflater.inflate(R.layout.fragment_pocket_money, container, false);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        inflater.inflate(R.menu.menu_add_card, menu);
+        inflater.inflate(R.menu.menu_pocket_money, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -40,15 +43,15 @@ public class AddCardFragment extends Fragment {
 
         int id = item.getItemId();
 
-        if (id == R.id.done_add_card) {
+        if (id == R.id.send_money) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
-                    .setTitle("Successful Message")
-                    .setMessage("You added a new card")
-                    .setPositiveButton("OK", null);
+                    .setTitle("Send Pocket Money")
+                    .setView(R.layout.dialog_send_money)
+                    .setPositiveButton("Confirm", null)
+                    .setNegativeButton("Cancel", null);
             builder.show();
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

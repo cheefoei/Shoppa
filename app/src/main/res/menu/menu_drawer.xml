@@ -4,13 +4,17 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Home" />
+        android:title="@string/fragment_home" />
     <item
         android:id="@+id/nav_card"
         android:icon="@drawable/ic_credit_card_black_24dp"
-        android:title="Manage Card" />
+        android:title="@string/fragment_card" />
+    <item
+        android:id="@+id/pocket_money"
+        android:icon="@drawable/ic_local_atm_black_24dp"
+        android:title="@string/fragment_pocket" />
     <item
         android:id="@+id/nav_history"
         android:icon="@drawable/ic_history_black_24dp"
-        android:title="History" />
+        android:title="@string/fragment_history" />
 </menu>

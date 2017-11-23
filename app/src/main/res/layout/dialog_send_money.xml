@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/padding"
+    android:paddingEnd="@dimen/padding"
+    android:paddingStart="@dimen/padding"
+    android:paddingTop="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:fontFamily="@string/font_family_regular"
+        android:text="Receiver"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/send_money_receiver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/edit_text_bg"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:fontFamily="@string/font_family_regular"
+        android:text="Amount"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/send_money_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/edit_text_bg"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:fontFamily="@string/font_family_regular"
+        android:text="@string/string_password"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/send_money_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/edit_text_bg"
+        android:inputType="textPassword" />
+
+</LinearLayout>

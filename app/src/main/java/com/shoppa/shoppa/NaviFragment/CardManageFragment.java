@@ -23,7 +23,7 @@ public class CardManageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getActivity().setTitle("Manage Card");
+        getActivity().setTitle(getString(R.string.fragment_card));
 
         // Enable menu in toolbar
         setHasOptionsMenu(true);

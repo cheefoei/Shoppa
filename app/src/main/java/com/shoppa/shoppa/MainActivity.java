@@ -15,7 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.shoppa.shoppa.NaviFragment.CardManageFragment;
+import com.shoppa.shoppa.NaviFragment.HistoryFragment;
 import com.shoppa.shoppa.NaviFragment.HomeFragment;
+import com.shoppa.shoppa.NaviFragment.PocketMoneyFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -112,8 +114,13 @@ public class MainActivity extends AppCompatActivity
 
             mFragment = new CardManageFragment();
             currentFragment = "CARD";
+        } else if (id == R.id.pocket_money && !currentFragment.equals("POCKET")) {
+
+            mFragment = new PocketMoneyFragment();
+            currentFragment = "POCKET";
         } else if (id == R.id.nav_history && !currentFragment.equals("HISTORY")) {
 
+            mFragment = new HistoryFragment();
             currentFragment = "HISTORY";
         }
 
