@@ -105,4 +105,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="error_required_field">This field is required</string>
+    <string name="error_email_invalid">Invalid email address</string>
+    <string name="error_password_not_match">Password and confirm password are not match</string>
 </resources>

@@ -1,21 +1,36 @@
 package com.shoppa.shoppa;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.shoppa.shoppa.db.entity.User;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class RegisterFragment extends Fragment {
 
-    private FirebaseFirestore mFireStore;
+    private DatabaseReference mReference;
+    private ProgressDialog mProgressDialog;
+
+    private EditText etUsername,
+            etEmail,
+            etPassword,
+            etConfirmPassword;
+    private String username, email, password;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -27,13 +42,20 @@ public class RegisterFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
+        etUsername = (EditText) view.findViewById(R.id.et_username);
+        etEmail = (EditText) view.findViewById(R.id.et_email);
+        etPassword = (EditText) view.findViewById(R.id.et_password);
+        etConfirmPassword = (EditText) view.findViewById(R.id.et_confirm_password);
+
         Button btnRegister = (Button) view.findViewById(R.id.btn_do_register);
         btnRegister.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                attemptRegister();
+                if (isValid()) {
+                    attemptRegister();
+                }
             }
         });
 
@@ -47,25 +69,134 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-        mFireStore = FirebaseFirestore.getInstance();
+        mReference = ShoppaApplication.mDatabase.getReference("user");
 
         return view;
     }
 
-    private void attemptRegister() {
+    private boolean isValid() {
 
-        Map<String, Object> newUser = new HashMap<>();
-        newUser.put("user_email", "ccc@ccc.com");
-        mFireStore.collection("shoppa").document("user")
-                .set(newUser)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+        boolean isValid = true;
 
-                    @Override
-                    public void onSuccess(Void aVoid) {
+        username = etUsername.getText().toString();
+        email = etEmail.getText().toString();
+        password = etPassword.getText().toString();
 
-                    }
-                });
+        String confirmPassword = etConfirmPassword.getText().toString();
 
+        if (password.equals("")) {
+            etPassword.setError(getString(R.string.error_required_field));
+            isValid = false;
+        }
+        if (confirmPassword.equals("")) {
+            etConfirmPassword.setError(getString(R.string.error_required_field));
+            isValid = false;
+        }
+        if (!password.equals("") && !confirmPassword.equals("")) {
+            if (!password.equals(confirmPassword)) {
+                etPassword.setError(getString(R.string.error_password_not_match));
+                etConfirmPassword.setError(getString(R.string.error_password_not_match));
+                isValid = false;
+            }
+        }
+
+        if (email.equals("")) {
+            etEmail.setError(getString(R.string.error_required_field));
+            isValid = false;
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError(getString(R.string.error_email_invalid));
+            isValid = false;
+        }
+
+        if (username.equals("")) {
+            etUsername.setError(getString(R.string.error_required_field));
+            isValid = false;
+        }
+
+        return isValid;
     }
 
+    private boolean isUserExist() {
+
+        final boolean[] isUserExist = {false};
+
+        Query query = mReference.orderByChild("email").equalTo(email);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                isUserExist[0] = dataSnapshot.exists();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return isUserExist[0];
+    }
+
+    private String getEncryptedPassword() {
+
+        String encryptedPassword = null;
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte aByte : bytes) {
+                sb.append(String.format("%02X", aByte));
+            }
+            encryptedPassword = sb.toString();
+        } catch (NoSuchAlgorithmException exc) {
+            exc.printStackTrace();
+        }
+
+        return encryptedPassword;
+    }
+
+    private void attemptRegister() {
+
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected void onPreExecute() {
+
+                super.onPreExecute();
+
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setTitle("Loading");
+                mProgressDialog.setMessage("Registering your new account ...");
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.show();
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                if (isUserExist()) {
+                    AlertDialog.Builder builder
+                            = new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
+                            .setMessage("You already have an account")
+                            .setPositiveButton("OK", null);
+                    builder.show();
+                } else {
+                    String userId = mReference.push().getKey();
+                    String encryptedPassword = getEncryptedPassword();
+                    User user = new User(username, email, encryptedPassword);
+                    mReference.child(userId).setValue(user);
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                mProgressDialog.dismiss();
+            }
+        }.execute();
+    }
 }
