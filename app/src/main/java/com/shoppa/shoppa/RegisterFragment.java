@@ -1,6 +1,5 @@
 package com.shoppa.shoppa;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class RegisterFragment extends Fragment {
 
