@@ -1,6 +1,7 @@
 package com.shoppa.shoppa;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -52,9 +53,8 @@ public class RegisterFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-
                 if (isValid()) {
-                    attemptRegister();
+                    checkUserExist();
                 }
             }
         });
@@ -116,25 +116,90 @@ public class RegisterFragment extends Fragment {
         return isValid;
     }
 
-    private boolean isUserExist() {
+    private void checkUserExist() {
 
-        final boolean[] isUserExist = {false};
-
-        Query query = mReference.orderByChild("email").equalTo(email);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        new AsyncTask<Void, Void, Void>() {
 
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                isUserExist[0] = dataSnapshot.exists();
+            protected void onPreExecute() {
+
+                super.onPreExecute();
+
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setMessage("Registering your new account ...");
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.show();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            protected Void doInBackground(Void... params) {
 
+                Query query = mReference.orderByChild("email").equalTo(email);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if (dataSnapshot.exists()) {
+
+                            mProgressDialog.dismiss();
+
+                            AlertDialog.Builder builder
+                                    = new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
+                                    .setTitle("Error")
+                                    .setMessage("You already have an account")
+                                    .setPositiveButton("OK", null);
+                            builder.show();
+                        } else {
+                            attemptRegister();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+                return null;
             }
-        });
 
-        return isUserExist[0];
+        }.execute();
+    }
+
+    private void attemptRegister() {
+
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                String userId = mReference.push().getKey();
+                String encryptedPassword = getEncryptedPassword();
+                User user = new User(username, email, encryptedPassword);
+                mReference.child(userId).setValue(user);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+
+                super.onPostExecute(aVoid);
+                mProgressDialog.dismiss();
+
+                AlertDialog.Builder builder
+                        = new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
+                        .setTitle("Successful")
+                        .setMessage("You registered an account")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getActivity().onBackPressed();
+                            }
+                        });
+                builder.show();
+            }
+        }.execute();
+
     }
 
     private String getEncryptedPassword() {
@@ -155,48 +220,5 @@ public class RegisterFragment extends Fragment {
         }
 
         return encryptedPassword;
-    }
-
-    private void attemptRegister() {
-
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected void onPreExecute() {
-
-                super.onPreExecute();
-
-                mProgressDialog = new ProgressDialog(getActivity());
-                mProgressDialog.setTitle("Loading");
-                mProgressDialog.setMessage("Registering your new account ...");
-                mProgressDialog.setCancelable(false);
-                mProgressDialog.show();
-            }
-
-            @Override
-            protected Void doInBackground(Void... params) {
-
-                if (isUserExist()) {
-                    AlertDialog.Builder builder
-                            = new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
-                            .setMessage("You already have an account")
-                            .setPositiveButton("OK", null);
-                    builder.show();
-                } else {
-                    String userId = mReference.push().getKey();
-                    String encryptedPassword = getEncryptedPassword();
-                    User user = new User(username, email, encryptedPassword);
-                    mReference.child(userId).setValue(user);
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                mProgressDialog.dismiss();
-            }
-        }.execute();
     }
 }

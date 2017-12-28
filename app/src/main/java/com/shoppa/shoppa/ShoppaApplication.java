@@ -13,6 +13,5 @@ public class ShoppaApplication extends Application {
 
         super.onCreate();
         mDatabase = FirebaseDatabase.getInstance();
-        mDatabase.setPersistenceEnabled(true);
     }
 }
