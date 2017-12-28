@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
+import android.widget.EditText;
 
 public class LoginFragment extends Fragment {
+
+    private EditText etEmail, etPassword;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -22,12 +24,15 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
+        etEmail = (EditText) view.findViewById(R.id.et_email);
+        etPassword = (EditText) view.findViewById(R.id.et_password);
+
         Button btnLogin = (Button) view.findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                getActivity().finish();
+                attemptLogin();
             }
         });
 
@@ -53,5 +58,13 @@ public class LoginFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void attemptLogin() {
+
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+
+
     }
 }
