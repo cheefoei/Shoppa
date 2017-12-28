@@ -60,6 +60,7 @@
     <string name="string_exp_date">Expiration Date</string>
     <string name="string_add_card">Add Credit Card</string>
     <string name="string_choose_credit_card">Choose Credit Card</string>
+    <string name="string_delete_credit_card">Choose Credit Card</string>
 
     <string-array name="month">
         <item>January</item>

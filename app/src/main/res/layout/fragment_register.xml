@@ -42,7 +42,7 @@
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_do_register"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
         android:layout_gravity="bottom"

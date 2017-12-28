@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "26980426549",
+    "firebase_url": "https://shoppa-810d7.firebaseio.com",
+    "project_id": "shoppa-810d7",
+    "storage_bucket": "shoppa-810d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:26980426549:android:aa1263eca5f79d29",
+        "android_client_info": {
+          "package_name": "com.shoppa.shoppa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "26980426549-ps5argd5p0992gr63bd4cqc0otktim9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzO3rNIi97Ke3cnGXjb1i_gGBuzEofmuc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

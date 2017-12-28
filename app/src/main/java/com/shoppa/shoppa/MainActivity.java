@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.shoppa.shoppa.NaviFragment.CardManageFragment;
 import com.shoppa.shoppa.NaviFragment.HistoryFragment;
 import com.shoppa.shoppa.NaviFragment.HomeFragment;

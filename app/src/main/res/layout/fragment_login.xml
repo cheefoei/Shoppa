@@ -6,6 +6,7 @@
     tools:context="com.shoppa.shoppa.LoginFragment">
 
     <EditText
+        android:id="@+id/et_email"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
         android:layout_marginBottom="16dp"
@@ -15,6 +16,7 @@
         android:inputType="textEmailAddress" />
 
     <EditText
+        android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
         android:drawablePadding="16dp"
