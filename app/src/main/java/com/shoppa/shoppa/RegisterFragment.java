@@ -27,11 +27,11 @@ public class RegisterFragment extends Fragment {
     private DatabaseReference mReference;
     private ProgressDialog mProgressDialog;
 
-    private EditText etUsername,
+    private EditText etName,
             etEmail,
             etPassword,
             etConfirmPassword;
-    private String username, email, password;
+    private String name, email, password;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -43,7 +43,7 @@ public class RegisterFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
-        etUsername = (EditText) view.findViewById(R.id.et_username);
+        etName = (EditText) view.findViewById(R.id.et_name);
         etEmail = (EditText) view.findViewById(R.id.et_email);
         etPassword = (EditText) view.findViewById(R.id.et_password);
         etConfirmPassword = (EditText) view.findViewById(R.id.et_confirm_password);
@@ -78,7 +78,7 @@ public class RegisterFragment extends Fragment {
 
         boolean isValid = true;
 
-        username = etUsername.getText().toString();
+        name = etName.getText().toString();
         email = etEmail.getText().toString();
         password = etPassword.getText().toString();
 
@@ -108,8 +108,8 @@ public class RegisterFragment extends Fragment {
             isValid = false;
         }
 
-        if (username.equals("")) {
-            etUsername.setError(getString(R.string.error_required_field));
+        if (name.equals("")) {
+            etName.setError(getString(R.string.error_required_field));
             isValid = false;
         }
 
@@ -173,7 +173,7 @@ public class RegisterFragment extends Fragment {
 
                 String userId = mReference.push().getKey();
                 String encryptedPassword = getEncryptedPassword();
-                User user = new User(username, email, encryptedPassword);
+                User user = new User(name, email, encryptedPassword);
                 mReference.child(userId).setValue(user);
 
                 return null;

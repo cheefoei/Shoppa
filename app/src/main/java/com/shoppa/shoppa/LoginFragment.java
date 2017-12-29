@@ -1,7 +1,6 @@
 package com.shoppa.shoppa;
 
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -100,55 +99,29 @@ public class LoginFragment extends Fragment {
 
     private void attemptLogin() {
 
-        new AsyncTask<Void, Void, Void>() {
+        DatabaseReference mReference = ShoppaApplication.mDatabase.getReference("user");
 
-            DatabaseReference mReference;
-            ProgressDialog mProgressDialog;
+        final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage("Registering your new account ...");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
 
-            boolean valid = false;
-
-            @Override
-            protected void onPreExecute() {
-
-                super.onPreExecute();
-
-                mReference = ShoppaApplication.mDatabase.getReference("user");
-                mProgressDialog = new ProgressDialog(getActivity());
-                mProgressDialog.setMessage("Registering your new account ...");
-                mProgressDialog.setCancelable(false);
-                mProgressDialog.show();
-            }
+        Query query = mReference.orderByChild("email").equalTo(email);
+        query.addValueEventListener(new ValueEventListener() {
 
             @Override
-            protected Void doInBackground(Void... params) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Query query = mReference.orderByChild("email").equalTo(email);
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        if (dataSnapshot.exists()) {
-                            User user = dataSnapshot.getValue(User.class);
-                            assert user != null;
-                            if (user.getPassword().equals(getEncryptedPassword())) {
-                                valid = true;
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-
-                super.onPostExecute(aVoid);
                 mProgressDialog.dismiss();
+                boolean valid = false;
+
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    User user = childSnapshot.getValue(User.class);
+                    assert user != null;
+                    if (user.getPassword().equals(getEncryptedPassword())) {
+                        valid = true;
+                    }
+                }
 
                 if (!valid) {
                     AlertDialog.Builder builder
@@ -161,7 +134,13 @@ public class LoginFragment extends Fragment {
                     getActivity().finish();
                 }
             }
-        }.execute();
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                mProgressDialog.dismiss();
+            }
+        });
+
     }
 
     private String getEncryptedPassword() {

@@ -6,13 +6,13 @@
     tools:context="com.shoppa.shoppa.RegisterFragment">
 
     <EditText
-        android:id="@+id/et_username"
+        android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
         android:layout_marginBottom="16dp"
         android:drawablePadding="16dp"
         android:drawableStart="@drawable/ic_perm_identity_black_24dp"
-        android:hint="@string/string_username"
+        android:hint="@string/string_full_name"
         android:inputType="text" />
 
     <EditText
