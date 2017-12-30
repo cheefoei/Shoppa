@@ -4,18 +4,22 @@ public class Store {
 
     private String id;
     private String name;
-    private String address;
-    private String city;
-    private String state;
-    private long postcode;
+    private double longitude;
+    private double latitude;
 
-    public Store(String id, String name, String address, String city, String state, long postcode) {
+    public Store() {
+    }
+
+    public Store(String id, String name) {
         this.id = id;
         this.name = name;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.postcode = postcode;
+    }
+
+    public Store(String name, double longitude, double latitude) {
+
+        this.name = name;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public String getId() {
@@ -34,35 +38,19 @@ public class Store {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    public String getCity() {
-        return city;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public long getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(long postcode) {
-        this.postcode = postcode;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }

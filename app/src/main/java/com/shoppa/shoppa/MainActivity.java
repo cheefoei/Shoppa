@@ -1,6 +1,8 @@
 package com.shoppa.shoppa;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,16 +14,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.shoppa.shoppa.NaviFragment.CardManageFragment;
 import com.shoppa.shoppa.NaviFragment.HistoryFragment;
 import com.shoppa.shoppa.NaviFragment.HomeFragment;
 import com.shoppa.shoppa.NaviFragment.PocketMoneyFragment;
+import com.shoppa.shoppa.db.da.UserDA;
+import com.shoppa.shoppa.db.entity.User;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private ImageView mImageProfile;
+    private TextView tvUsername;
 
     private FragmentTransaction mFragmentTransaction;
     private Fragment mFragment;
@@ -35,8 +45,6 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        checkLogged();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,12 +63,24 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View navigationHeader = navigationView.getHeaderView(0);
+        mImageProfile = (ImageView) navigationHeader.findViewById(R.id.img_profile);
+        tvUsername = (TextView) navigationHeader.findViewById(R.id.tv_username);
+
         // Adding home fragment into frame as default
         FragmentManager fragmentManager = getSupportFragmentManager();
         mFragment = new HomeFragment();
         mFragmentTransaction = fragmentManager.beginTransaction();
         mFragmentTransaction.add(R.id.content_frame, mFragment);
         mFragmentTransaction.commit();
+
+//        DatabaseReference mReference = ShoppaApplication.mDatabase.getReference("item");
+//
+//        String id = mReference.push().getKey();
+//        Item s = new Item("Chili Sauce", "Spicy", 7.90, "9787538583373", "-L1Xc4l66XwgQPe1_Kvv");
+//        mReference.child(id).setValue(s);
+
+        checkLogged();
     }
 
     @Override
@@ -78,7 +98,7 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == LOG_IN_REQUEST_CODE) {
-
+            checkLogged();
         } else {
 
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
@@ -90,11 +110,21 @@ public class MainActivity extends AppCompatActivity
 
     private void checkLogged() {
 
-        if (1 == 2) {
+        //Reading user data
+        UserDA userDA = new UserDA(this);
+        User user = userDA.getUser();
 
-            Intent i = new Intent(MainActivity.this, ShopActivity.class);
-            startActivity(i);
+        //Close user database
+        userDA.close();
 
+        if (user != null) {
+            if (user.getProfile() != null) {
+                byte[] decodedString = Base64.decode(user.getProfile(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory
+                        .decodeByteArray(decodedString, 0, decodedString.length);
+                mImageProfile.setImageBitmap(decodedByte);
+            }
+            tvUsername.setText(user.getName());
         } else {
             Intent intent = new Intent(this, LoginRegisterActivity.class);
             startActivityForResult(intent, LOG_IN_REQUEST_CODE);

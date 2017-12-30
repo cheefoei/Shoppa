@@ -11,12 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.shoppa.shoppa.db.da.UserDA;
 import com.shoppa.shoppa.db.entity.User;
 
 import java.security.MessageDigest;
@@ -26,6 +28,8 @@ public class LoginFragment extends Fragment {
 
     private EditText etEmail, etPassword;
     private String email, password;
+
+    private User loginUser;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -39,6 +43,15 @@ public class LoginFragment extends Fragment {
 
         etEmail = (EditText) view.findViewById(R.id.et_email);
         etPassword = (EditText) view.findViewById(R.id.et_password);
+
+        TextView tvForgot = (TextView) view.findViewById(R.id.tv_forgot);
+        tvForgot.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         Button btnLogin = (Button) view.findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +115,7 @@ public class LoginFragment extends Fragment {
         DatabaseReference mReference = ShoppaApplication.mDatabase.getReference("user");
 
         final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage("Registering your new account ...");
+        mProgressDialog.setMessage("Logging in ...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -116,9 +129,10 @@ public class LoginFragment extends Fragment {
                 boolean valid = false;
 
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    User user = childSnapshot.getValue(User.class);
-                    assert user != null;
-                    if (user.getPassword().equals(getEncryptedPassword())) {
+                    loginUser = childSnapshot.getValue(User.class);
+                    assert loginUser != null;
+                    if (loginUser.getPassword().equals(getEncryptedPassword())) {
+                        loginUser.setId(childSnapshot.getKey());
                         valid = true;
                     }
                 }
@@ -131,7 +145,7 @@ public class LoginFragment extends Fragment {
                             .setPositiveButton("OK", null);
                     builder.show();
                 } else {
-                    getActivity().finish();
+                    doSuccessLogin();
                 }
             }
 
@@ -161,5 +175,27 @@ public class LoginFragment extends Fragment {
         }
 
         return encryptedPassword;
+    }
+
+    private void doSuccessLogin() {
+
+        //Opening User sqlite database
+        UserDA userDA = new UserDA(getActivity());
+
+        //Saving user data into sqlite database
+        User user = userDA.insertUser(
+                loginUser.getId(),
+                loginUser.getName(),
+                loginUser.getGender(),
+                loginUser.getEmail(),
+                loginUser.getProfile()
+        );
+
+        //Closing sqlite database
+        userDA.close();
+
+        if (user != null) {
+            getActivity().finish();
+        }
     }
 }

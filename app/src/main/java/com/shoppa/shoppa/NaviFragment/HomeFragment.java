@@ -2,6 +2,7 @@ package com.shoppa.shoppa.NaviFragment;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -9,16 +10,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.shoppa.shoppa.R;
 import com.shoppa.shoppa.ScannerActivity;
 import com.shoppa.shoppa.ShopActivity;
+import com.shoppa.shoppa.ShoppaApplication;
+import com.shoppa.shoppa.db.entity.Store;
 
 public class HomeFragment extends Fragment {
 
@@ -66,10 +75,8 @@ public class HomeFragment extends Fragment {
 
         if (scanningResult != null) {
             if (scanningResult.getContents() != null) {
-                String shopId = scanningResult.getContents();
-                Intent intent = new Intent(getActivity(), ShopActivity.class);
-                intent.putExtra("SHOP_ID", shopId);
-                getActivity().startActivity(intent);
+                String storeId = scanningResult.getContents();
+                checkStore(storeId);
             }
         } else {
             Toast.makeText(getActivity(), "No scan data received!", Toast.LENGTH_SHORT).show();
@@ -106,4 +113,52 @@ public class HomeFragment extends Fragment {
                 .setOrientationLocked(false);
         integrator.initiateScan();
     }
+
+    private void checkStore(final String storeId) {
+
+        final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage("Finding store ...");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+
+        DatabaseReference mReference = ShoppaApplication.mDatabase.getReference("store");
+
+        Query query = mReference.child(storeId);
+        query.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                mProgressDialog.dismiss();
+                Store store = null;
+
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    store = new Store(
+                            dataSnapshot.getKey(),
+                            (String) dataSnapshot.child("name").getValue()
+                    );
+                }
+
+                if (store == null) {
+                    AlertDialog.Builder builder
+                            = new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
+                            .setTitle("Error")
+                            .setMessage("Store not found")
+                            .setPositiveButton("OK", null);
+                    builder.show();
+                } else {
+                    Intent intent = new Intent(getActivity(), ShopActivity.class);
+                    intent.putExtra("SHOP_ID", store.getId());
+                    intent.putExtra("SHOP_NAME", store.getName());
+                    getActivity().startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                mProgressDialog.dismiss();
+            }
+        });
+    }
+
 }

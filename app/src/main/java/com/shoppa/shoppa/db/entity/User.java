@@ -7,6 +7,7 @@ public class User {
     private String gender;
     private String email;
     private String password;
+    private String profile;
 
     public User() {
     }
@@ -45,7 +46,19 @@ public class User {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 }

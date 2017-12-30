@@ -9,11 +9,12 @@
     android:paddingTop="24dp">
 
     <ImageView
+        android:id="@+id/img_dialog_product"
         android:layout_width="64dp"
         android:layout_height="84dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/string_shop_product_img"
-        android:src="@drawable/product1" />
+        android:src="@drawable/product" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,11 +37,10 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/product_price"
+                android:id="@+id/tv_dialog_product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@string/font_family_regular"
-                android:text="RM 7.99"
                 android:textSize="20sp" />
 
         </LinearLayout>

@@ -24,20 +24,21 @@
         app:cardCornerRadius="40dp">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/img_profile"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            app:srcCompat="@drawable/user" />
+            android:contentDescription="@string/string_profile"
+            app:srcCompat="@drawable/user"/>
     </android.support.v7.widget.CardView>
 
     <TextView
+        android:id="@+id/tv_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
-        android:gravity="center_horizontal"
-        android:text="Gal Gadot"
         android:fontFamily="@string/font_family_medium"
-        android:textColor="@color/colorTextMedium"/>
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorTextMedium" />
 
 </LinearLayout>
