@@ -1,33 +1,30 @@
 package com.shoppa.shoppa.db.entity;
 
-import java.util.Date;
-
 public class Cart {
 
-    private String id;
-    private Date date;
+    private long id;
+    private double total;
 
     public Cart() {
     }
 
-    public Cart(String id, Date date) {
-        this.id = id;
-        this.date = date;
+    public Cart(double total) {
+        this.total = total;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public double getTotal() {
+        return total;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTotal(double total) {
+        this.total = total;
     }
 }

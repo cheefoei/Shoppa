@@ -2,7 +2,7 @@ package com.shoppa.shoppa.db.entity;
 
 public class CartDetail {
 
-    private String id;
+    private long id;
     private int quantity;
     private String itemId;
 
@@ -14,17 +14,11 @@ public class CartDetail {
         this.itemId = itemId;
     }
 
-    public CartDetail(String id, int quantity, String itemId) {
-        this.id = id;
-        this.quantity = quantity;
-        this.itemId = itemId;
-    }
-
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

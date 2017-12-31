@@ -1,13 +1,109 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.shoppa.shoppa.PayPocketFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:layout_marginStart="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin"
+                android:layout_weight="1"
+                android:fontFamily="@string/font_family_medium"
+                android:text="@string/string_your_pocket"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_pocket_money"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin"
+                android:layout_weight="1"
+                android:fontFamily="@string/font_family_regular"
+                android:gravity="start"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:layout_marginStart="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin"
+                android:layout_weight="1"
+                android:fontFamily="@string/font_family_medium"
+                android:text="@string/string_shop_total"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_total_amount"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin"
+                android:layout_weight="1"
+                android:fontFamily="@string/font_family_regular"
+                android:gravity="start"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:layout_marginStart="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin"
+                android:layout_weight="1"
+                android:fontFamily="@string/font_family_medium"
+                android:text="@string/string_shop_remain_pocket"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_remain_pocket"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin"
+                android:layout_weight="1"
+                android:fontFamily="@string/font_family_regular"
+                android:gravity="start"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_pay_by_pocket"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="164dp"
+        android:layout_marginTop="@dimen/padding"
+        android:background="@color/colorButtonPrimary"
+        android:text="@string/string_shop_pay_by_pocket"
+        android:textStyle="bold" />
+
+</RelativeLayout>

@@ -50,6 +50,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USER_POCKET_MONEY + " REAL NOT NULL"
             + ");";
 
+    //Column of cart table
+    public static final String TABLE_CART = "cart";
+    public static final String COLUMN_CART_ID = "cart_id";
+    public static final String COLUMN_CART_TOTAL = "cart_total";
+    private static final String SQL_CREATE_TABLE_CART = "CREATE TABLE " + TABLE_CART + "("
+            + COLUMN_CART_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COLUMN_CART_TOTAL + " REAL NOT NULL "
+            + ");";
+
+    //Column of cart detail table
+    public static final String TABLE_CART_DETAIL = "cart_detail";
+    public static final String COLUMN_CART_DETAIL_ID = "cart_detail_id";
+    public static final String COLUMN_CART_DETAIL_QUANTITY = "cart_detail_qty";
+    private static final String SQL_CREATE_TABLE_CART_DETAIL = "CREATE TABLE " + TABLE_CART_DETAIL + "("
+            + COLUMN_CART_DETAIL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COLUMN_CART_DETAIL_QUANTITY + " INTEGER NOT NULL, "
+            + COLUMN_ITEM_ID + " TEXT NOT NULL "
+            + ");";
+
     private static final String DATABASE_NAME = "shoppa.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -62,6 +81,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_TABLE_STORE);
         db.execSQL(SQL_CREATE_TABLE_ITEM);
         db.execSQL(SQL_CREATE_TABLE_USER);
+        db.execSQL(SQL_CREATE_TABLE_CART);
+        db.execSQL(SQL_CREATE_TABLE_CART_DETAIL);
     }
 
     @Override
@@ -71,6 +92,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_STORE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CART);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CART_DETAIL);
         //Recreate the tables
         onCreate(db);
     }

@@ -1,6 +1,7 @@
 package com.shoppa.shoppa;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -32,6 +34,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.shoppa.shoppa.adapter.CartAdapter;
+import com.shoppa.shoppa.db.da.CartDA;
+import com.shoppa.shoppa.db.da.CartDetailDA;
 import com.shoppa.shoppa.db.entity.CartDetail;
 import com.shoppa.shoppa.db.entity.Item;
 
@@ -45,10 +49,13 @@ public class ShopActivity extends AppCompatActivity implements CartAdapter.OnIte
     private List<Item> itemList;
     private List<CartDetail> cartDetailList;
 
+    private TextView tvTotalPrice;
+
     private Item item;
 
     private String storeId;
     private final int PERMISSIONS_REQUEST_ACCESS_CAMERA = 1;
+    private final int REQUEST_CHECKOUT_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +81,24 @@ public class ShopActivity extends AppCompatActivity implements CartAdapter.OnIte
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(adapter);
 
+        tvTotalPrice = (TextView) findViewById(R.id.tv_total_price);
+
         Button btnCheckout = (Button) findViewById(R.id.btn_checkout);
         btnCheckout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(ShopActivity.this, CheckoutActivity.class);
-                startActivity(intent);
+                if (itemList.isEmpty() && cartDetailList.isEmpty()) {
+                    AlertDialog.Builder builder
+                            = new AlertDialog.Builder(ShopActivity.this, R.style.DialogTheme)
+                            .setTitle("Error")
+                            .setMessage("Your cart is empty")
+                            .setPositiveButton("OK", null);
+                    builder.show();
+                } else {
+                    saveCartDataAndCheckout();
+                }
             }
         });
 
@@ -102,6 +119,13 @@ public class ShopActivity extends AppCompatActivity implements CartAdapter.OnIte
                 }
             }
         });
+
+        removeAllCartData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -131,15 +155,22 @@ public class ShopActivity extends AppCompatActivity implements CartAdapter.OnIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        IntentResult scanningResult =
-                IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-
-        if (scanningResult != null) {
-            if (scanningResult.getContents() != null) {
-                checkItem(scanningResult.getContents());
+        if (requestCode == REQUEST_CHECKOUT_CODE) {
+            removeAllCartData();
+            if (resultCode == Activity.RESULT_OK) {
+                finish();
             }
         } else {
-            Toast.makeText(this, "No scan data received!", Toast.LENGTH_SHORT).show();
+            IntentResult scanningResult =
+                    IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+            if (scanningResult != null) {
+                if (scanningResult.getContents() != null) {
+                    checkItem(scanningResult.getContents());
+                }
+            } else {
+                Toast.makeText(this, "No scan data received!", Toast.LENGTH_SHORT).show();
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -191,6 +222,7 @@ public class ShopActivity extends AppCompatActivity implements CartAdapter.OnIte
                     assert tempItem != null;
                     if (tempItem.getStoreId().equals(storeId)) {
                         item = tempItem;
+                        item.setId(childSnapshot.getKey());
                     } else {
                         item = null;
                     }
@@ -263,17 +295,54 @@ public class ShopActivity extends AppCompatActivity implements CartAdapter.OnIte
 
                         adapter.notifyDataSetChanged();
                         onItemChanged();
+
+                        item = null;
                     }
                 })
                 .setNegativeButton("Cancel", null);
         builder.show();
     }
 
+    private void saveCartDataAndCheckout() {
+
+        Log.e("DB", "DO SAVE CART");
+
+        String str = tvTotalPrice.getText().toString();
+        double cartTotal = Double.parseDouble(str.substring(3, str.length()));
+
+        CartDA cartDA = new CartDA(this);
+        cartDA.insertCart(cartTotal);
+        cartDA.close();
+
+        CartDetailDA cartDetailDA = new CartDetailDA(this);
+
+        for (CartDetail cartDetail : cartDetailList) {
+            cartDetailDA.insertCartDetail(
+                    cartDetail.getQuantity(), cartDetail.getItemId());
+        }
+        cartDetailDA.close();
+
+        Intent intent = new Intent(ShopActivity.this, CheckoutActivity.class);
+        startActivityForResult(intent, REQUEST_CHECKOUT_CODE);
+    }
+
+    private void removeAllCartData() {
+
+        CartDetailDA cartDetailDA = new CartDetailDA(this);
+        cartDetailDA.removeAll();
+        cartDetailDA.close();
+
+        CartDA cartDA = new CartDA(this);
+        cartDA.removeAll();
+        cartDA.close();
+
+        Log.e("DB", "DO REMOVE CART");
+    }
+
     @Override
     public void onItemChanged() {
 
         TextView tvEmptyCart = (TextView) findViewById(R.id.tv_cart_empty);
-        TextView tvTotalPrice = (TextView) findViewById(R.id.tv_total_price);
 
         double total = 0.00;
 

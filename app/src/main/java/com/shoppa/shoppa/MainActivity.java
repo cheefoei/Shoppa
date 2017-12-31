@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -79,6 +80,14 @@ public class MainActivity extends AppCompatActivity
 //        String id = mReference.push().getKey();
 //        Item s = new Item("Chili Sauce", "Spicy", 7.90, "9787538583373", "-L1Xc4l66XwgQPe1_Kvv");
 //        mReference.child(id).setValue(s);
+
+        if (!ShoppaApplication.isInternetConnected(this)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme)
+                    .setTitle("Error")
+                    .setMessage("Connect to internet for using all features")
+                    .setPositiveButton("I understand", null);
+            builder.show();
+        }
 
         checkLogged();
     }

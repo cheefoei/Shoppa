@@ -49,7 +49,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_marginEnd="@dimen/margin"
                 android:layout_weight="1"
                 android:fontFamily="@string/font_family_medium"
@@ -57,9 +57,10 @@
                 android:textSize="18sp" />
 
             <Spinner
-                android:id="@+id/spinner_product_quantity"
-                android:layout_width="wrap_content"
+                android:id="@+id/spinner_card_chooser"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:gravity="end"
                 android:layout_weight="1"
                 android:fontFamily="@string/font_family_regular"
                 android:textSize="16sp" />
@@ -87,6 +88,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin"
+                android:gravity="center_horizontal"
                 android:layout_weight="1"
                 android:fontFamily="@string/font_family_regular"
                 android:textSize="16sp" />
@@ -113,6 +115,7 @@
                 android:id="@+id/tv_total_amount"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:layout_marginEnd="@dimen/margin"
                 android:layout_weight="1"
                 android:fontFamily="@string/font_family_regular"
