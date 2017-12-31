@@ -40,12 +40,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_USER_GENDER = "user_gender";
     public static final String COLUMN_USER_EMAIL = "user_email";
     public static final String COLUMN_USER_PROFILE = "user_profile";
+    public static final String COLUMN_USER_POCKET_MONEY = "user_pocket_money";
     private static final String SQL_CREATE_TABLE_USER = "CREATE TABLE " + TABLE_USER + "("
             + COLUMN_USER_ID + " TEXT NOT NULL PRIMARY KEY, "
             + COLUMN_USER_NAME + " TEXT NOT NULL, "
             + COLUMN_USER_GENDER + " TEXT, "
             + COLUMN_USER_EMAIL + " TEXT NOT NULL, "
-            + COLUMN_USER_PROFILE + " TEXT "
+            + COLUMN_USER_PROFILE + " TEXT, "
+            + COLUMN_USER_POCKET_MONEY + " REAL NOT NULL"
             + ");";
 
     private static final String DATABASE_NAME = "shoppa.db";

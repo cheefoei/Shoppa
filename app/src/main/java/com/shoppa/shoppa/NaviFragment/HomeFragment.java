@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,13 @@ import com.shoppa.shoppa.R;
 import com.shoppa.shoppa.ScannerActivity;
 import com.shoppa.shoppa.ShopActivity;
 import com.shoppa.shoppa.ShoppaApplication;
+import com.shoppa.shoppa.db.da.UserDA;
 import com.shoppa.shoppa.db.entity.Store;
+import com.shoppa.shoppa.db.entity.User;
 
 public class HomeFragment extends Fragment {
+
+    private ProgressDialog mProgressDialog;
 
     private final int PERMISSIONS_REQUEST_ACCESS_CAMERA = 1;
 
@@ -45,6 +50,9 @@ public class HomeFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setCancelable(false);
 
         FloatingActionButton fabShop = (FloatingActionButton) v.findViewById(R.id.fab_shop);
         fabShop.setOnClickListener(new View.OnClickListener() {
@@ -106,19 +114,24 @@ public class HomeFragment extends Fragment {
 
     private void startScan() {
 
-        IntentIntegrator integrator = new IntentIntegrator(getActivity())
-                .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
-                .setPrompt("Scan shopper QR code")
-                .setCaptureActivity(ScannerActivity.class)
-                .setOrientationLocked(false);
-        integrator.initiateScan();
+            IntentIntegrator integrator = new IntentIntegrator(getActivity())
+                    .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+                    .setPrompt("Scan shopper QR code")
+                    .setCaptureActivity(ScannerActivity.class)
+                    .setOrientationLocked(false);
+            integrator.initiateScan();
+//            AlertDialog.Builder builder
+//                    = new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
+//                    .setTitle("Error")
+//                    .setMessage("Please add new credit card to continue")
+//                    .setPositiveButton("OK", null);
+//            builder.show();
+
     }
 
     private void checkStore(final String storeId) {
 
-        final ProgressDialog mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Finding store ...");
-        mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
         DatabaseReference mReference = ShoppaApplication.mDatabase.getReference("store");
@@ -132,7 +145,7 @@ public class HomeFragment extends Fragment {
                 mProgressDialog.dismiss();
                 Store store = null;
 
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                if (dataSnapshot.exists()) {
                     store = new Store(
                             dataSnapshot.getKey(),
                             (String) dataSnapshot.child("name").getValue()

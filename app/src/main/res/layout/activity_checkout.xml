@@ -35,106 +35,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:checked="true"
-                    android:text="Credit Card" />
+                    android:text="@string/radio_credit_card" />
 
                 <RadioButton
                     android:id="@+id/radio_pocket"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Pocket Money" />
+                    android:text="@string/radio_pocket_money" />
             </RadioGroup>
 
-            <LinearLayout
+            <FrameLayout
+                android:id="@+id/container_payment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
-                android:layout_marginStart="4dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin"
-                    android:layout_weight="1"
-                    android:fontFamily="@string/font_family_medium"
-                    android:text="@string/string_card_number"
-                    android:textSize="18sp" />
-
-                <Spinner
-                    android:id="@+id/spinner_product_quantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/cards"
-                    android:fontFamily="@string/font_family_regular"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
-                android:layout_marginStart="4dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin"
-                    android:layout_weight="1"
-                    android:fontFamily="@string/font_family_medium"
-                    android:text="@string/string_card_name"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin"
-                    android:layout_weight="1"
-                    android:fontFamily="@string/font_family_regular"
-                    android:text="Allan Chan"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
-                android:layout_marginStart="4dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin"
-                    android:layout_weight="1"
-                    android:fontFamily="@string/font_family_medium"
-                    android:text="@string/string_shop_total"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin"
-                    android:layout_weight="1"
-                    android:fontFamily="@string/font_family_regular"
-                    android:text="RM 17.98"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_pay_now"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:layout_marginBottom="@dimen/padding"
-                android:layout_marginTop="@dimen/padding"
-                android:background="@color/colorButtonPrimary"
-                android:text="@string/string_shop_pay_now"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

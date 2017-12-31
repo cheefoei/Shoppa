@@ -188,7 +188,8 @@ public class LoginFragment extends Fragment {
                 loginUser.getName(),
                 loginUser.getGender(),
                 loginUser.getEmail(),
-                loginUser.getProfile()
+                loginUser.getProfile(),
+                loginUser.getPocketMoney()
         );
 
         //Closing sqlite database

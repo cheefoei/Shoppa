@@ -8,14 +8,16 @@ public class User {
     private String email;
     private String password;
     private String profile;
+    private double pocketMoney;
 
     public User() {
     }
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, double pocketMoney) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.pocketMoney = pocketMoney;
     }
 
     public String getId() {
@@ -60,5 +62,13 @@ public class User {
 
     public void setProfile(String profile) {
         this.profile = profile;
+    }
+
+    public double getPocketMoney() {
+        return pocketMoney;
+    }
+
+    public void setPocketMoney(double pocketMoney) {
+        this.pocketMoney = pocketMoney;
     }
 }

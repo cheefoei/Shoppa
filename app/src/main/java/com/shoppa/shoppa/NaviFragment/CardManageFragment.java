@@ -1,9 +1,8 @@
 package com.shoppa.shoppa.NaviFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.shoppa.shoppa.AddCardActivity;
 import com.shoppa.shoppa.R;
 
 public class CardManageFragment extends Fragment {
@@ -45,13 +45,8 @@ public class CardManageFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.add_card) {
-
-            AddCardFragment addCardFragment = new AddCardFragment();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, addCardFragment);
-            fragmentTransaction.addToBackStack(null); // Press back key to go back
-            fragmentTransaction.commit();
+            Intent intent = new Intent(getActivity(), AddCardActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

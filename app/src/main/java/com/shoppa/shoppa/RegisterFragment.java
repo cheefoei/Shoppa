@@ -173,7 +173,7 @@ public class RegisterFragment extends Fragment {
 
                 String userId = mReference.push().getKey();
                 String encryptedPassword = getEncryptedPassword();
-                User user = new User(name, email, encryptedPassword);
+                User user = new User(name, email, encryptedPassword, 0);
                 mReference.child(userId).setValue(user);
 
                 return null;
