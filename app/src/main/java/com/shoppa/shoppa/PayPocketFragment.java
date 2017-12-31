@@ -43,6 +43,7 @@ public class PayPocketFragment extends Fragment {
     private Cart cart;
 
     private double remain = 0;
+    private String storeId;
 
     public PayPocketFragment() {
         // Required empty public constructor
@@ -51,6 +52,8 @@ public class PayPocketFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        storeId = getArguments().getString("SHOP_ID");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pay_pocket, container, false);
@@ -163,8 +166,8 @@ public class PayPocketFragment extends Fragment {
 
                 mReference = ShoppaApplication.mDatabase.getReference("payment");
 
-                Payment payment = new Payment(
-                        new Date().getTime(), "Pocket", cart.getTotal(), "", cartId);
+                Payment payment = new Payment(new Date().getTime(), "Pocket", cart.getTotal(),
+                        storeId, "", cartId, user.getId());
                 String paymentId = mReference.push().getKey();
                 mReference.child(paymentId).setValue(payment);
 

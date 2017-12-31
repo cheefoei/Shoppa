@@ -29,11 +29,11 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tv_today_spent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@string/font_family_light"
-                android:text="@string/string_empty_money"
                 android:textSize="36sp"
                 android:textStyle="bold" />
 
@@ -57,13 +57,19 @@
             android:padding="@dimen/padding">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tv_empty_today"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:fontFamily="@string/font_family_light"
                 android:text="@string/string_empty_today"
                 android:textSize="16sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_today"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:scrollbars="none" />
 
         </LinearLayout>
 

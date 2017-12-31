@@ -323,6 +323,7 @@ public class ShopActivity extends AppCompatActivity implements CartAdapter.OnIte
         cartDetailDA.close();
 
         Intent intent = new Intent(ShopActivity.this, CheckoutActivity.class);
+        intent.putExtra("SHOP_ID", storeId);
         startActivityForResult(intent, REQUEST_CHECKOUT_CODE);
     }
 

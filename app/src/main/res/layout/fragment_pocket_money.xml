@@ -29,12 +29,12 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/tv_current_pocket_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin"
                 android:fontFamily="@string/font_family_light"
-                android:text="200"
                 android:textSize="40sp"
                 android:textStyle="bold" />
 

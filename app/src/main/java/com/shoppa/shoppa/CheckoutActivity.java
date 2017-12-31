@@ -19,9 +19,14 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
+        String storeId = getIntent().getStringExtra("SHOP_ID");
+        final Bundle bundle = new Bundle();
+        bundle.putString("SHOP_ID", storeId);
+
         fragmentManager = getSupportFragmentManager();
         Fragment mFragment = new PayCardFragment();
-        FragmentTransaction mFragmentTransaction = fragmentManager.beginTransaction();
+        mFragment.setArguments(bundle);
+        final FragmentTransaction mFragmentTransaction = fragmentManager.beginTransaction();
         mFragmentTransaction.add(R.id.container_payment, mFragment, state);
         mFragmentTransaction.commit();
 
@@ -35,9 +40,11 @@ public class CheckoutActivity extends AppCompatActivity {
 
                 if (checkedId == R.id.radio_credit && !state.equals("card")) {
                     mFragment = new PayCardFragment();
+                    mFragment.setArguments(bundle);
                     state = "card";
                 } else if (checkedId == R.id.radio_pocket && !state.equals("pocket")) {
                     mFragment = new PayPocketFragment();
+                    mFragment.setArguments(bundle);
                     state = "pocket";
                 }
 

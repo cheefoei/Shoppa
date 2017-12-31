@@ -48,8 +48,11 @@ public class PayCardFragment extends Fragment {
     private Spinner mSpinnerCard;
     private TextView tvCardName, tvTotalAmount;
 
+    private User user;
     private Cart cart;
     private Card card;
+
+    private String storeId;
 
     public PayCardFragment() {
         // Required empty public constructor
@@ -58,6 +61,8 @@ public class PayCardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        storeId = getArguments().getString("SHOP_ID");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pay_card, container, false);
@@ -106,7 +111,7 @@ public class PayCardFragment extends Fragment {
         mProgressDialog.show();
 
         UserDA userDA = new UserDA(getActivity());
-        User user = userDA.getUser();
+        user = userDA.getUser();
         userDA.close();
 
         mReference = ShoppaApplication.mDatabase.getReference("card");
@@ -203,7 +208,8 @@ public class PayCardFragment extends Fragment {
                 mReference = ShoppaApplication.mDatabase.getReference("payment");
 
                 Payment payment = new Payment(
-                        new Date().getTime(), "Card", cart.getTotal(), card.getId(), cartId);
+                        new Date().getTime(), "Card", cart.getTotal(), storeId,
+                        card.getId(), cartId, user.getId());
                 String paymentId = mReference.push().getKey();
                 mReference.child(paymentId).setValue(payment);
 

@@ -1,5 +1,6 @@
 package com.shoppa.shoppa;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -68,13 +69,6 @@ public class MainActivity extends AppCompatActivity
         mImageProfile = (ImageView) navigationHeader.findViewById(R.id.img_profile);
         tvUsername = (TextView) navigationHeader.findViewById(R.id.tv_username);
 
-        // Adding home fragment into frame as default
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        mFragment = new HomeFragment();
-        mFragmentTransaction = fragmentManager.beginTransaction();
-        mFragmentTransaction.add(R.id.content_frame, mFragment);
-        mFragmentTransaction.commit();
-
 //        DatabaseReference mReference = ShoppaApplication.mDatabase.getReference("item");
 //
 //        String id = mReference.push().getKey();
@@ -85,8 +79,21 @@ public class MainActivity extends AppCompatActivity
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme)
                     .setTitle("Error")
                     .setMessage("Connect to internet for using all features")
-                    .setPositiveButton("I understand", null);
+                    .setPositiveButton("I understand", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
             builder.show();
+        } else {
+            // Adding home fragment into frame as default
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            mFragment = new HomeFragment();
+            mFragmentTransaction = fragmentManager.beginTransaction();
+            mFragmentTransaction.add(R.id.content_frame, mFragment);
+            mFragmentTransaction.commit();
         }
 
         checkLogged();
