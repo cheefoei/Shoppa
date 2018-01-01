@@ -24,9 +24,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@string/font_family_medium"
+                android:fontFamily="@string/font_family_black"
                 android:text="@string/string_today"
-                android:textSize="16sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/tv_today_spent"
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@string/font_family_light"
-                android:textSize="36sp"
+                android:textSize="42sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -64,6 +64,37 @@
                 android:fontFamily="@string/font_family_light"
                 android:text="@string/string_empty_today"
                 android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin"
+                android:orientation="horizontal"
+                android:paddingBottom="2dp"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_weight="1.5"
+                    android:fontFamily="@string/font_family_black"
+                    android:gravity="start"
+                    android:text="@string/string_today_store"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="108dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:layout_weight="0.5"
+                    android:fontFamily="@string/font_family_black"
+                    android:gravity="end"
+                    android:text="@string/string_today_spent"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_today"

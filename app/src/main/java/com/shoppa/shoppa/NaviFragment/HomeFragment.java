@@ -43,6 +43,7 @@ import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
+    private DatabaseReference mReference;
     private ProgressDialog mProgressDialog;
 
     private TextView tvTodaySpent, tvTodayEmpty;
@@ -70,7 +71,7 @@ public class HomeFragment extends Fragment {
         mProgressDialog.setCancelable(false);
 
         paymentList = new ArrayList<>();
-        adapter = new TodayAdapter(getActivity(), paymentList);
+        adapter = new TodayAdapter(getActivity(), paymentList, mReference);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -162,7 +163,7 @@ public class HomeFragment extends Fragment {
         user = userDA.getUser();
         userDA.close();
 
-        DatabaseReference mReference = ShoppaApplication.mDatabase.getReference("payment");
+        mReference = ShoppaApplication.mDatabase.getReference("payment");
 
         mProgressDialog.setMessage("Getting your data ...");
         mProgressDialog.show();
