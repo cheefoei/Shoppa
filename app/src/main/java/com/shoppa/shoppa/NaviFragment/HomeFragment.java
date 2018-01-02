@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment {
     private DatabaseReference mReference;
     private ProgressDialog mProgressDialog;
 
+    private LinearLayout layoutTodayHeader;
     private TextView tvTodaySpent, tvTodayEmpty;
     private TodayAdapter adapter;
     private List<Payment> paymentList;
@@ -81,6 +83,7 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(adapter);
 
+        layoutTodayHeader = (LinearLayout) view.findViewById(R.id.layout_today_header);
         tvTodaySpent = (TextView) view.findViewById(R.id.tv_today_spent);
         tvTodayEmpty = (TextView) view.findViewById(R.id.tv_empty_today);
 
@@ -204,8 +207,10 @@ public class HomeFragment extends Fragment {
 
         if (paymentList.isEmpty()) {
             tvTodayEmpty.setVisibility(View.VISIBLE);
+            layoutTodayHeader.setVisibility(View.GONE);
         } else {
             tvTodayEmpty.setVisibility(View.GONE);
+            layoutTodayHeader.setVisibility(View.VISIBLE);
         }
     }
 

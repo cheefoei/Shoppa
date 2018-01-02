@@ -96,64 +96,11 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_transfer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="@dimen/padding">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:fontFamily="@string/font_family_regular"
-                        android:text="Arthur Ho" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:fontFamily="@string/font_family_regular"
-                        android:text="17 Nov 2017 22:14:34" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"
-                        android:fontFamily="@string/font_family_regular"
-                        android:text="50" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="@dimen/padding">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:fontFamily="@string/font_family_regular"
-                        android:text="Clark Kent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:fontFamily="@string/font_family_regular"
-                        android:text="22 Nov 2017 11:22:54" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"
-                        android:fontFamily="@string/font_family_regular"
-                        android:text="150" />
-
-                </LinearLayout>
-
+                    android:scrollbars="none" />
 
             </LinearLayout>
 

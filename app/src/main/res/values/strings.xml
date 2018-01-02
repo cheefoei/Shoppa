@@ -113,6 +113,7 @@
     <string name="string_send_money">SEND MONEY</string>
 
     <!-- TODO: History -->
+    <string name="string_empty_history">You do not have record in this day</string>
     <string name="string_history_select_date">Select date</string>
     <string name="string_history_store_name">Store Name</string>
     <string name="string_history_total_spent">Total Spent</string>

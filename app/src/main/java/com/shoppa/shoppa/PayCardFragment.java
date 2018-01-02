@@ -208,7 +208,7 @@ public class PayCardFragment extends Fragment {
                 mReference = ShoppaApplication.mDatabase.getReference("payment");
 
                 Payment payment = new Payment(
-                        new Date().getTime(), "Card", cart.getTotal(), storeId,
+                        new Date().getTime(), "Credit Card", cart.getTotal(), storeId,
                         card.getId(), cartId, user.getId());
                 String paymentId = mReference.push().getKey();
                 mReference.child(paymentId).setValue(payment);
