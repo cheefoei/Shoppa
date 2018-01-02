@@ -12,32 +12,32 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:fontFamily="@string/font_family_regular"
-        android:text="Receiver"
+        android:text="@string/string_pocket_receiver_email"
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/send_money_receiver"
+        android:id="@+id/et_send_money_receiver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="18dp"
         android:background="@drawable/edit_text_bg"
-        android:inputType="text" />
+        android:inputType="textEmailAddress" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:fontFamily="@string/font_family_regular"
-        android:text="Amount"
+        android:text="@string/string_pocket_send_amount"
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/send_money_amount"
+        android:id="@+id/et_send_money_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="18dp"
         android:background="@drawable/edit_text_bg"
-        android:inputType="numberDecimal" />
+        android:inputType="numberSigned" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/send_money_password"
+        android:id="@+id/et_send_money_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="18dp"

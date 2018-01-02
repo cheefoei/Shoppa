@@ -22,7 +22,7 @@
                 android:layout_marginEnd="@dimen/margin"
                 android:layout_weight="1"
                 android:fontFamily="@string/font_family_medium"
-                android:text="@string/string_your_pocket"
+                android:text="@string/string_shop_current_pocket"
                 android:textSize="18sp" />
 
             <TextView

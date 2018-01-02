@@ -57,6 +57,7 @@
     <string name="radio_credit_card">Credit Card</string>
     <string name="radio_pocket_money">Pocket Money</string>
     <string name="string_checkout_total">Total Amount: </string>
+    <string name="string_shop_current_pocket">Your Pocket Money: </string>
     <string name="string_shop_remain_pocket">Remaining: </string>
     <string name="string_no_card">No credit card found</string>
     <string name="string_add_card_now">Add Credit Card Now</string>
@@ -107,10 +108,12 @@
     </string-array>
 
     <!-- TODO: Pocket Money -->
-    <string name="string_your_pocket">Your pocket money</string>
+    <string name="string_current_pocket">Current</string>
     <string name="string_empty_pocket">0.00</string>
     <string name="string_notify_empty_pocket">Empty History</string>
     <string name="string_send_money">SEND MONEY</string>
+    <string name="string_pocket_receiver_email">Receiver Email</string>
+    <string name="string_pocket_send_amount">Amount</string>
 
     <!-- TODO: History -->
     <string name="string_empty_history">You do not have record in this day</string>
@@ -127,5 +130,8 @@
     <string name="error_required_field">This field is required</string>
     <string name="error_email_invalid">Invalid email address</string>
     <string name="error_password_not_match">Password and confirm password are not match</string>
+    <string name="error_invalid_receiver">Invalid receiver</string>
+    <string name="error_over_amount">Your pocket money is not enough</string>
+    <string name="error_wrong_password">Wrong password</string>
 
 </resources>
