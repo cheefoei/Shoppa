@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
         mProgressDialog.setCancelable(false);
 
         paymentList = new ArrayList<>();
-        adapter = new TodayAdapter(getActivity(), paymentList, mReference);
+        adapter = new TodayAdapter(paymentList, mReference);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);

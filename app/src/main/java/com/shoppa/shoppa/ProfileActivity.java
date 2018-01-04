@@ -2,9 +2,12 @@ package com.shoppa.shoppa;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,6 +30,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.shoppa.shoppa.db.da.UserDA;
 import com.shoppa.shoppa.db.entity.User;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -43,6 +49,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private User user;
 
+    private final static int PICK_IMG_REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -55,6 +63,20 @@ public class ProfileActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
 
         mImageProfile = (ImageView) findViewById(R.id.img_profile);
+        mImageProfile.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(
+                        intent, "Select Picture"), PICK_IMG_REQUEST_CODE);
+
+            }
+        });
 
         mSpinnerGender = (Spinner) findViewById(R.id.spinner_gender);
         mSpinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -109,6 +131,47 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton btnLogout = (ImageButton) findViewById(R.id.btn_logout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder
+                        = new AlertDialog.Builder(ProfileActivity.this, R.style.DialogTheme)
+                        .setTitle("Confirmation")
+                        .setMessage("Confirm to logout?")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                UserDA userDA = new UserDA(ProfileActivity.this);
+                                userDA.removeAll();
+                                userDA.close();
+
+                                AlertDialog.Builder builder
+                                        = new AlertDialog.Builder(ProfileActivity.this, R.style.DialogTheme)
+                                        .setTitle("Successful")
+                                        .setMessage("You already logout")
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                Intent intent = new Intent(
+                                                        ProfileActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        });
+                                builder.show();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null);
+                builder.show();
+            }
+        });
+
         UserDA userDA = new UserDA(this);
         user = userDA.getUser();
         userDA.close();
@@ -116,6 +179,40 @@ public class ProfileActivity extends AppCompatActivity {
         getUserData();
 
         initChangePasswordDialog();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == PICK_IMG_REQUEST_CODE && resultCode == RESULT_OK &&
+                data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+
+                String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                mReference.child(user.getId()).child("profile").setValue(encoded);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(
+                ProfileActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void initChangePasswordDialog() {
@@ -151,6 +248,18 @@ public class ProfileActivity extends AppCompatActivity {
                                     .setValue(getEncryptedPassword(password));
 
                             mProgressDialog.dismiss();
+
+                            AlertDialog.Builder builder
+                                    = new AlertDialog.Builder(ProfileActivity.this, R.style.DialogTheme)
+                                    .setTitle("Successful")
+                                    .setMessage("Your password is updated")
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialogChangePassword.dismiss();
+                                        }
+                                    });
+                            builder.show();
                         }
                     }
                 });
@@ -182,8 +291,11 @@ public class ProfileActivity extends AppCompatActivity {
             etOldPassword.setError(getString(R.string.error_required_field));
             isValid = false;
         } else {
-            if (!getEncryptedPassword(oldPassword).equals(user.getPassword())) {
+            String p = getEncryptedPassword(oldPassword);
+            String up = user.getPassword();
+            if (!p.equals(up)) {
                 etOldPassword.setError(getString(R.string.error_wrong_password));
+                isValid = false;
             }
         }
 
@@ -191,6 +303,7 @@ public class ProfileActivity extends AppCompatActivity {
             if (!password.equals(confirmPassword)) {
                 etNewConfirmPassword.setError(getString(R.string.error_password_not_match));
                 etNewPassword.setError(getString(R.string.error_password_not_match));
+                isValid = false;
             }
         }
 
@@ -229,10 +342,14 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 }
 
-                byte[] decodedString = Base64.decode(user.getProfile(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory
-                        .decodeByteArray(decodedString, 0, decodedString.length);
-                mImageProfile.setImageBitmap(decodedByte);
+                if (user.getProfile() != null) {
+                    byte[] decodedString = Base64.decode(user.getProfile(), Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory
+                            .decodeByteArray(decodedString, 0, decodedString.length);
+                    mImageProfile.setImageBitmap(decodedByte);
+                } else {
+                    mImageProfile.setImageResource(R.drawable.user);
+                }
             }
 
             @Override

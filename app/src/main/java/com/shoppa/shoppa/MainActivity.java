@@ -22,6 +22,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.shoppa.shoppa.NaviFragment.CardManageFragment;
 import com.shoppa.shoppa.NaviFragment.HistoryFragment;
 import com.shoppa.shoppa.NaviFragment.HomeFragment;
@@ -37,6 +42,8 @@ public class MainActivity extends AppCompatActivity
 
     private FragmentTransaction mFragmentTransaction;
     private Fragment mFragment;
+
+    private User user;
 
     private final int LOG_IN_REQUEST_CODE = 1;
 
@@ -75,13 +82,14 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
 //        DatabaseReference mReference = ShoppaApplication.mDatabase.getReference("item");
 //
 //        String id = mReference.push().getKey();
-//        Item s = new Item("Chili Sauce", "Spicy", 7.90, "9787538583373", "-L1Xc4l66XwgQPe1_Kvv");
+//        Item s = new Item("Photo Creater", "A seasonal magazine for photography lover", 10.60, "9771511636002","", "-L1Xc4l66XwgQPe1_Kvv");
 //        mReference.child(id).setValue(s);
 
         if (!ShoppaApplication.isInternetConnected(this)) {
@@ -137,24 +145,51 @@ public class MainActivity extends AppCompatActivity
 
         //Reading user data
         UserDA userDA = new UserDA(this);
-        User user = userDA.getUser();
+        user = userDA.getUser();
 
         //Close user database
         userDA.close();
 
         if (user != null) {
-            if (user.getProfile() != null) {
-                byte[] decodedString = Base64.decode(user.getProfile(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory
-                        .decodeByteArray(decodedString, 0, decodedString.length);
-                mImageProfile.setImageBitmap(decodedByte);
-            }
-            tvUsername.setText(user.getName());
+            syncUserData();
         } else {
             Intent intent = new Intent(this, LoginRegisterActivity.class);
             startActivityForResult(intent, LOG_IN_REQUEST_CODE);
             finish();
         }
+    }
+
+    private void syncUserData() {
+
+        DatabaseReference mReference = ShoppaApplication.mDatabase.getReference("user");
+
+        Query query = mReference.orderByChild("email").equalTo(user.getEmail());
+        query.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    user = childSnapshot.getValue(User.class);
+                    assert user != null;
+                    user.setId(childSnapshot.getKey());
+                }
+
+                if (user.getProfile() != null) {
+                    byte[] decodedString = Base64.decode(user.getProfile(), Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory
+                            .decodeByteArray(decodedString, 0, decodedString.length);
+                    mImageProfile.setImageBitmap(decodedByte);
+                } else {
+                    mImageProfile.setImageResource(R.drawable.user);
+                }
+                tvUsername.setText(user.getName());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

@@ -84,6 +84,10 @@ public class UserDA {
         return user;
     }
 
+    public void removeAll() {
+        mDatabase.execSQL("DELETE FROM " + DatabaseHelper.TABLE_USER);
+    }
+
     public void close() {
         mDatabaseHelper.close();
     }

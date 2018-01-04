@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,14 +44,14 @@ public class LoginFragment extends Fragment {
         etEmail = (EditText) view.findViewById(R.id.et_email);
         etPassword = (EditText) view.findViewById(R.id.et_password);
 
-        TextView tvForgot = (TextView) view.findViewById(R.id.tv_forgot);
-        tvForgot.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        TextView tvForgot = (TextView) view.findViewById(R.id.tv_forgot);
+//        tvForgot.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         Button btnLogin = (Button) view.findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(new View.OnClickListener() {

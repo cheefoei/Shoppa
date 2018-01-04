@@ -127,30 +127,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
-            android:layout_marginStart="4dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin"
-                android:layout_weight="1"
-                android:fontFamily="@string/font_family_light"
-                android:text="(**** **** **** 7854)"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

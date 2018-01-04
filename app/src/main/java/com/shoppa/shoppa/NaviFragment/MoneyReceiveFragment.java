@@ -106,7 +106,7 @@ public class MoneyReceiveFragment extends Fragment {
         user = userDA.getUser();
         userDA.close();
 
-        retrieveAllReceive();
+        onDateChanged();
 
         return view;
     }
@@ -175,38 +175,6 @@ public class MoneyReceiveFragment extends Fragment {
                     if (transfer.getUserTo().equals(user.getId())) {
                         receiveList.add(transfer);
                     }
-                }
-                adapter.notifyDataSetChanged();
-                onReceiveListListChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                mProgressDialog.dismiss();
-            }
-        });
-    }
-
-    private void retrieveAllReceive() {
-
-        mReference = ShoppaApplication.mDatabase.getReference("transfer");
-
-        mProgressDialog.setMessage("Getting your receive history ...");
-        mProgressDialog.show();
-
-        Query query = mReference.orderByChild("userTo").equalTo(user.getId());
-        query.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                mProgressDialog.dismiss();
-                receiveList.clear();
-
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    Transfer transfer = childSnapshot.getValue(Transfer.class);
-                    assert transfer != null;
-                    receiveList.add(transfer);
                 }
                 adapter.notifyDataSetChanged();
                 onReceiveListListChanged();

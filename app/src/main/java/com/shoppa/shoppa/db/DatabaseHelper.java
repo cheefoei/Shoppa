@@ -6,33 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    //Column of store table
-    public static final String TABLE_STORE = "store";
-    public static final String COLUMN_STORE_ID = "store_id";
-    public static final String COLUMN_STORE_NAME = "store_name";
-    public static final String COLUMN_STORE_LNG = "store_lng";
-    public static final String COLUMN_STORE_LAT = "store_lat";
-    private static final String SQL_CREATE_TABLE_STORE = "CREATE TABLE " + TABLE_STORE + "("
-            + COLUMN_STORE_ID + " TEXT NOT NULL PRIMARY KEY, "
-            + COLUMN_STORE_NAME + " TEXT NOT NULL, "
-            + COLUMN_STORE_LNG + " REAL NOT NULL, "
-            + COLUMN_STORE_LAT + " REAL NOT NULL "
-            + ");";
-
-    //Column of item table
-    public static final String TABLE_ITEM = "item";
-    public static final String COLUMN_ITEM_ID = "item_id";
-    public static final String COLUMN_ITEM_NAME = "item_name";
-    public static final String COLUMN_ITEM_DESC = "item_desc";
-    public static final String COLUMN_ITEM_PRICE = "item_price";
-    private static final String SQL_CREATE_TABLE_ITEM = "CREATE TABLE " + TABLE_ITEM + "("
-            + COLUMN_ITEM_ID + " TEXT NOT NULL PRIMARY KEY, "
-            + COLUMN_ITEM_NAME + " TEXT NOT NULL, "
-            + COLUMN_ITEM_DESC + " TEXT NOT NULL, "
-            + COLUMN_ITEM_PRICE + " REAL NOT NULL, "
-            + COLUMN_STORE_ID + " TEXT NOT NULL"
-            + ");";
-
     //Column of user table
     public static final String TABLE_USER = "user";
     public static final String COLUMN_USER_ID = "user_id";
@@ -63,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_CART_DETAIL = "cart_detail";
     public static final String COLUMN_CART_DETAIL_ID = "cart_detail_id";
     public static final String COLUMN_CART_DETAIL_QUANTITY = "cart_detail_qty";
+    public static final String COLUMN_ITEM_ID = "item_id";
     private static final String SQL_CREATE_TABLE_CART_DETAIL = "CREATE TABLE " + TABLE_CART_DETAIL + "("
             + COLUMN_CART_DETAIL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COLUMN_CART_DETAIL_QUANTITY + " INTEGER NOT NULL, "
@@ -78,8 +52,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_TABLE_STORE);
-        db.execSQL(SQL_CREATE_TABLE_ITEM);
         db.execSQL(SQL_CREATE_TABLE_USER);
         db.execSQL(SQL_CREATE_TABLE_CART);
         db.execSQL(SQL_CREATE_TABLE_CART_DETAIL);
@@ -89,8 +61,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         //Drop the tables
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STORE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CART);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CART_DETAIL);

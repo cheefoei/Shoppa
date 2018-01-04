@@ -116,7 +116,7 @@ public class PayCardFragment extends Fragment {
 
         mReference = ShoppaApplication.mDatabase.getReference("card");
 
-        Query query = mReference.orderByChild("userId").equalTo(user.getId());
+        final Query query = mReference.orderByChild("userId").equalTo(user.getId());
         query.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -132,6 +132,8 @@ public class PayCardFragment extends Fragment {
                     cardList.add(card);
                     cardNumberList.add(card.getCardNumber());
                 }
+
+                query.removeEventListener(this);
 
                 if (cardList.isEmpty()) {
                     layoutPayCard.setVisibility(View.GONE);
