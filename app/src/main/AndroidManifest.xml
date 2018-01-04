@@ -40,6 +40,9 @@
         <activity
             android:name=".AddCardActivity"
             android:label="@string/activity_add_card" />
+        <activity
+            android:name=".AddMoneyActivity"
+            android:label="@string/activity_add_pocket_money" />
         <activity android:name=".ShopActivity" />
         <activity
             android:name=".CheckoutActivity"

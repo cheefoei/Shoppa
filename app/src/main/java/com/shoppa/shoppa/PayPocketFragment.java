@@ -185,7 +185,7 @@ public class PayPocketFragment extends Fragment {
 
                 AlertDialog.Builder builder
                         = new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
-                        .setTitle("Successful Message")
+                        .setTitle("Successful")
                         .setMessage("Your items is paid")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 

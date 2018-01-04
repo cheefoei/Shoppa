@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             Intent intent = new Intent(this, LoginRegisterActivity.class);
             startActivityForResult(intent, LOG_IN_REQUEST_CODE);
+            finish();
         }
     }
 

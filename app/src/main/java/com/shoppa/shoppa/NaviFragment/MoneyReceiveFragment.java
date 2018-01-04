@@ -22,7 +22,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.shoppa.shoppa.R;
 import com.shoppa.shoppa.ShoppaApplication;
-import com.shoppa.shoppa.adapter.TransferAdapter;
+import com.shoppa.shoppa.adapter.ReceiveAdapter;
 import com.shoppa.shoppa.db.da.UserDA;
 import com.shoppa.shoppa.db.entity.Transfer;
 import com.shoppa.shoppa.db.entity.User;
@@ -34,16 +34,16 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-public class MoneyTransferFragment extends Fragment {
+public class MoneyReceiveFragment extends Fragment {
 
     private DatabaseReference mReference;
     private ProgressDialog mProgressDialog;
 
-    private TransferAdapter adapter;
-    private List<Transfer> transferList;
+    private ReceiveAdapter adapter;
+    private List<Transfer> receiveList;
 
-    private LinearLayout layoutTransfer;
-    private TextView tvTransferDate, tvEmptyTransfer;
+    private LinearLayout layoutReceive;
+    private TextView tvReceiveDate, tvEmptyReceive;
 
     private User user;
 
@@ -55,7 +55,7 @@ public class MoneyTransferFragment extends Fragment {
     private int monthOfYear = 0;
     private int dayOfMonth = 0;
 
-    public MoneyTransferFragment() {
+    public MoneyReceiveFragment() {
         // Required empty public constructor
     }
 
@@ -63,29 +63,29 @@ public class MoneyTransferFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_money_transfer, container, false);
+        View view = inflater.inflate(R.layout.fragment_money_receive, container, false);
 
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Getting your pocket money ...");
         mProgressDialog.setCancelable(false);
 
-        layoutTransfer = (LinearLayout) view.findViewById(R.id.layout_transfer_history);
-        tvEmptyTransfer = (TextView) view.findViewById(R.id.tv_transfer_empty);
-        tvTransferDate = (TextView) view.findViewById(R.id.tv_transfer_history_date);
-        tvTransferDate.setText(simpleDateFormat.format(calendar.getTime()));
+        layoutReceive = (LinearLayout) view.findViewById(R.id.layout_receive_history);
+        tvEmptyReceive = (TextView) view.findViewById(R.id.tv_receive_empty);
+        tvReceiveDate = (TextView) view.findViewById(R.id.tv_receive_history_date);
+        tvReceiveDate.setText(simpleDateFormat.format(calendar.getTime()));
 
-        transferList = new ArrayList<>();
-        adapter = new TransferAdapter(mReference, transferList);
+        receiveList = new ArrayList<>();
+        adapter = new ReceiveAdapter(mReference, receiveList);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
-        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_transfer);
+        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_receive);
         mRecyclerView.setLayoutManager(llm);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(adapter);
 
-        ImageButton btnCalendar = (ImageButton) view.findViewById(R.id.btn_cal_transfer);
+        ImageButton btnCalendar = (ImageButton) view.findViewById(R.id.btn_cal_receive);
         btnCalendar.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -106,7 +106,7 @@ public class MoneyTransferFragment extends Fragment {
         user = userDA.getUser();
         userDA.close();
 
-        retrieveAllTransfer();
+        retrieveAllReceive();
 
         return view;
     }
@@ -127,7 +127,7 @@ public class MoneyTransferFragment extends Fragment {
                         monthOfYear = month;
                         dayOfMonth = day;
 
-                        tvTransferDate.setText(simpleDateFormat.format(calendar.getTime()));
+                        tvReceiveDate.setText(simpleDateFormat.format(calendar.getTime()));
                         onDateChanged();
                     }
                 }, yearOfCalendar, monthOfYear, dayOfMonth);
@@ -158,7 +158,6 @@ public class MoneyTransferFragment extends Fragment {
 
         mReference = ShoppaApplication.mDatabase.getReference("transfer");
 
-        mProgressDialog.setMessage("Getting your transfer history ...");
         mProgressDialog.show();
 
         Query query = mReference.orderByChild("date").startAt(startTime).endAt(endTime);
@@ -168,17 +167,17 @@ public class MoneyTransferFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 mProgressDialog.dismiss();
-                transferList.clear();
+                receiveList.clear();
 
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     Transfer transfer = childSnapshot.getValue(Transfer.class);
                     assert transfer != null;
-                    if (transfer.getUserFrom().equals(user.getId())) {
-                        transferList.add(transfer);
+                    if (transfer.getUserTo().equals(user.getId())) {
+                        receiveList.add(transfer);
                     }
                 }
                 adapter.notifyDataSetChanged();
-                onTransferListChanged();
+                onReceiveListListChanged();
             }
 
             @Override
@@ -188,29 +187,29 @@ public class MoneyTransferFragment extends Fragment {
         });
     }
 
-    private void retrieveAllTransfer() {
+    private void retrieveAllReceive() {
 
         mReference = ShoppaApplication.mDatabase.getReference("transfer");
 
-        mProgressDialog.setMessage("Getting your transfer history ...");
+        mProgressDialog.setMessage("Getting your receive history ...");
         mProgressDialog.show();
 
-        Query query = mReference.orderByChild("userFrom").equalTo(user.getId());
+        Query query = mReference.orderByChild("userTo").equalTo(user.getId());
         query.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 mProgressDialog.dismiss();
-                transferList.clear();
+                receiveList.clear();
 
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     Transfer transfer = childSnapshot.getValue(Transfer.class);
                     assert transfer != null;
-                    transferList.add(transfer);
+                    receiveList.add(transfer);
                 }
                 adapter.notifyDataSetChanged();
-                onTransferListChanged();
+                onReceiveListListChanged();
             }
 
             @Override
@@ -220,14 +219,14 @@ public class MoneyTransferFragment extends Fragment {
         });
     }
 
-    private void onTransferListChanged() {
+    private void onReceiveListListChanged() {
 
-        if (transferList.isEmpty()) {
-            tvEmptyTransfer.setVisibility(View.VISIBLE);
-            layoutTransfer.setVisibility(View.GONE);
+        if (receiveList.isEmpty()) {
+            tvEmptyReceive.setVisibility(View.VISIBLE);
+            layoutReceive.setVisibility(View.GONE);
         } else {
-            tvEmptyTransfer.setVisibility(View.GONE);
-            layoutTransfer.setVisibility(View.VISIBLE);
+            tvEmptyReceive.setVisibility(View.GONE);
+            layoutReceive.setVisibility(View.VISIBLE);
         }
     }
 }

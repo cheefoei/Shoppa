@@ -1,6 +1,7 @@
 package com.shoppa.shoppa;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -119,7 +120,7 @@ public class LoginFragment extends Fragment {
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
-        Query query = mReference.orderByChild("email").equalTo(email);
+        final Query query = mReference.orderByChild("email").equalTo(email);
         query.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -136,6 +137,8 @@ public class LoginFragment extends Fragment {
                         valid = true;
                     }
                 }
+
+                query.removeEventListener(this);
 
                 if (!valid) {
                     AlertDialog.Builder builder
@@ -196,6 +199,8 @@ public class LoginFragment extends Fragment {
         userDA.close();
 
         if (user != null) {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            getActivity().startActivity(intent);
             getActivity().finish();
         }
     }

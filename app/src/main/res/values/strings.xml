@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Shoppa</string>
     <string name="activity_add_card">Add new Card</string>
+    <string name="activity_add_pocket_money">Add Pocket Money</string>
     <string name="activity_checkout">Checkout</string>
 
     <string name="fragment_home">Home</string>
@@ -111,9 +112,13 @@
     <string name="string_current_pocket">Current</string>
     <string name="string_empty_pocket">0.00</string>
     <string name="string_notify_empty_pocket">Empty History</string>
-    <string name="string_send_money">SEND MONEY</string>
+    <string name="string_add_pocket_money">Add Pocket Money</string>
+    <string name="string_send_money">Send Money</string>
     <string name="string_pocket_receiver_email">Receiver Email</string>
     <string name="string_pocket_send_amount">Amount</string>
+    <string name="string_money_history_amount">Amount</string>
+    <string name="string_money_history_time">Time</string>
+    <string name="string_money_history_name">Name</string>
 
     <!-- TODO: History -->
     <string name="string_empty_history">You do not have record in this day</string>
@@ -133,5 +138,6 @@
     <string name="error_invalid_receiver">Invalid receiver</string>
     <string name="error_over_amount">Your pocket money is not enough</string>
     <string name="error_wrong_password">Wrong password</string>
+    <string name="error_zero_amount">Amount must be more than 0</string>
 
 </resources>

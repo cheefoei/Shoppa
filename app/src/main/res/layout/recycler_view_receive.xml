@@ -7,7 +7,7 @@
     android:weightSum="3">
 
     <TextView
-        android:id="@+id/tv_receiver_name"
+        android:id="@+id/tv_sender_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1.6"
@@ -15,7 +15,7 @@
         android:textSize="17sp" />
 
     <TextView
-        android:id="@+id/tv_transfer_time"
+        android:id="@+id/tv_receive_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.7"
@@ -23,7 +23,7 @@
         android:textSize="17sp" />
 
     <TextView
-        android:id="@+id/tv_transfer_amount"
+        android:id="@+id/tv_receive_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

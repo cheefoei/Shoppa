@@ -2,6 +2,7 @@ package com.shoppa.shoppa.NaviFragment;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.shoppa.shoppa.AddMoneyActivity;
 import com.shoppa.shoppa.R;
 import com.shoppa.shoppa.ShoppaApplication;
 import com.shoppa.shoppa.db.da.UserDA;
@@ -76,6 +78,7 @@ public class PocketMoneyFragment extends Fragment {
         ViewPagerAdapter viewPagerAdapter
                 = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
         viewPagerAdapter.addFragment(new MoneyTransferFragment(), "Transfer");
+        viewPagerAdapter.addFragment(new MoneyReceiveFragment(), "Receive");
 
         ViewPager mViewPager = (ViewPager) view.findViewById(R.id.viewpager_pocket_money);
         mViewPager.setAdapter(viewPagerAdapter);
@@ -102,7 +105,18 @@ public class PocketMoneyFragment extends Fragment {
 
         int id = item.getItemId();
 
-        if (id == R.id.send_money) {
+        if (id == R.id.add_money) {
+
+            Intent intent = new Intent(getActivity(), AddMoneyActivity.class);
+            getActivity().startActivity(intent);
+
+        } else if (id == R.id.send_money) {
+
+            etReceiver.requestFocus();
+            etReceiver.setText("");
+            etAmount.setText("");
+            etPassword.setText("");
+
             dialogSendMoney.show();
         }
         return super.onOptionsItemSelected(item);
@@ -166,6 +180,7 @@ public class PocketMoneyFragment extends Fragment {
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     user = childSnapshot.getValue(User.class);
                     assert user != null;
+                    user.setId(childSnapshot.getKey());
                     money = user.getPocketMoney();
                 }
                 tvPocketMoney.setText(String.format(Locale.getDefault(), "%.2f", money));
@@ -186,7 +201,7 @@ public class PocketMoneyFragment extends Fragment {
 
         mReference = ShoppaApplication.mDatabase.getReference("user");
 
-        Query query = mReference.orderByChild("email").equalTo(receiverStr);
+        final Query query = mReference.orderByChild("email").equalTo(receiverStr);
         query.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -197,7 +212,9 @@ public class PocketMoneyFragment extends Fragment {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                         receiver = childSnapshot.getValue(User.class);
+                        receiver.setId(childSnapshot.getKey());
                     }
+                    query.removeEventListener(this);
                     sendMoney();
                 } else {
                     etReceiver.setError(getString(R.string.error_invalid_receiver));
@@ -227,6 +244,13 @@ public class PocketMoneyFragment extends Fragment {
             @Override
             protected Void doInBackground(Void... params) {
 
+                double remainMoney = user.getPocketMoney() - amount;
+                double addedMoney = receiver.getPocketMoney() + amount;
+
+                mReference = ShoppaApplication.mDatabase.getReference("user");
+                mReference.child(user.getId()).child("pocketMoney").setValue(remainMoney);
+                mReference.child(receiver.getId()).child("pocketMoney").setValue(addedMoney);
+
                 mReference = ShoppaApplication.mDatabase.getReference("transfer");
 
                 String transferId = mReference.push().getKey();
@@ -246,12 +270,12 @@ public class PocketMoneyFragment extends Fragment {
                 AlertDialog.Builder builder
                         = new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
                         .setTitle("Successful")
-                        .setMessage("You registered an account")
+                        .setMessage("Money is sent to " + receiver.getName())
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                getActivity().onBackPressed();
+                                dialogSendMoney.dismiss();
                             }
                         });
                 builder.show();
