@@ -47,6 +47,11 @@
         <activity
             android:name=".CheckoutActivity"
             android:label="@string/activity_checkout" />
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/activity_profile"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

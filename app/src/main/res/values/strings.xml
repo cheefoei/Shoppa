@@ -3,6 +3,7 @@
     <string name="activity_add_card">Add new Card</string>
     <string name="activity_add_pocket_money">Add Pocket Money</string>
     <string name="activity_checkout">Checkout</string>
+    <string name="activity_profile">Profile</string>
 
     <string name="fragment_home">Home</string>
     <string name="fragment_card">Manage Card</string>
@@ -127,6 +128,18 @@
     <string name="string_history_total_spent">Total Spent</string>
     <string name="string_history_time">Time</string>
     <string name="string_history_method">Method</string>
+
+    <!-- TODO: Profile -->
+    <string name="string_profile_name">Name</string>
+    <string name="string_profile_gender">Gender</string>
+    <string name="string_profile_change_password">Change Password</string>
+    <string name="string_profile_old_password">Old Password</string>
+    <string name="string_profile_new_password">New Password</string>
+    <string name="string_profile_confirm_new_password">Confirm New Password</string>
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 
     <!-- TODO: Side navigation -->
     <string name="string_profile">user profile</string>

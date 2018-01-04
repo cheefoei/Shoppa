@@ -66,8 +66,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View navigationHeader = navigationView.getHeaderView(0);
-        mImageProfile = (ImageView) navigationHeader.findViewById(R.id.img_profile);
+
         tvUsername = (TextView) navigationHeader.findViewById(R.id.tv_username);
+
+        mImageProfile = (ImageView) navigationHeader.findViewById(R.id.img_profile);
+        mImageProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
 //        DatabaseReference mReference = ShoppaApplication.mDatabase.getReference("item");
 //
