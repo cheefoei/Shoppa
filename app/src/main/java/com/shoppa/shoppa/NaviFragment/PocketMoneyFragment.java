@@ -88,9 +88,14 @@ public class PocketMoneyFragment extends Fragment {
 
         initSendMoneyDialog();
 
-        retrievePocketMoney();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+
+        retrievePocketMoney();
+        super.onResume();
     }
 
     @Override

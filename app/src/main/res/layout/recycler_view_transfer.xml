@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1.6"
         android:fontFamily="@string/font_family_regular"
+        android:minWidth="100dp"
         android:textSize="17sp" />
 
     <TextView

@@ -54,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.6"
             android:fontFamily="@string/font_family_black"
+            android:minWidth="100dp"
             android:text="@string/string_money_history_name"
             android:textSize="18sp" />
 
